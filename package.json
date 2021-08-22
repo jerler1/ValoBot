@@ -1,0 +1,24 @@
+{
+  "name": "valobot",
+  "version": "1.0.0",
+  "description": "Discord Bot using Node.js specializing in guides for line-up's in Valorant for learning purposes.",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^13.1.0",
+    "dotenv": "^10.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jerler1/ValoBot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jerler1/ValoBot/issues"
+  },
+  "homepage": "https://github.com/jerler1/ValoBot#readme"
+}
