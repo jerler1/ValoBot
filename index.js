@@ -6,17 +6,14 @@ const myIntents = new Intents();
 myIntents.add(Intents.FLAGS.GUILDS);
 const client = new Client({ intents: myIntents });
 
-const commands = [
-  new SlashCommandBuilder()
-    .setName("ping")
-    .setDescription("Replies with pong!"),
-];
+
 
 client.once("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
 client.on("interactionCreate", async (interaction) => {
+  console.log(interaction);
   if (!interaction.isCommand()) return;
 
   const { commandName } = interaction;
