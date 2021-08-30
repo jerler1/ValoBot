@@ -1,5 +1,10 @@
 require("dotenv").config();
-const { Client, Intents } = require("discord.js");
+const {
+  Client,
+  Intents,
+  MessageActionRow,
+  MessageButton,
+} = require("discord.js");
 
 const myIntents = new Intents();
 myIntents.add(Intents.FLAGS.GUILDS);
@@ -35,6 +40,21 @@ client.on("messageCreate", (msg) => {
   }
   if (msg.content === "ying") {
     msg.reply("yang");
+  }
+});
+
+client.on("interactionCreate", async (interaction) => {
+  if (!interaction.isCommand()) return;
+
+  if (interaction.commandName === "ping") {
+    const row = new MessageActionRow().addComponents(
+      new MessageButton()
+        .setCustomId("primary")
+        .setLabel("Primary")
+        .setStyle("PRIMARY")
+    );
+
+    await interaction.reply({ content: "Pong!", components: [row] });
   }
 });
 
