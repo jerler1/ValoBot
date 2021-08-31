@@ -1,10 +1,12 @@
 require("dotenv").config();
 const {
   Client,
+  Collection,
   Intents,
   MessageActionRow,
   MessageButton,
 } = require("discord.js");
+const fs = require("fs");
 
 const myIntents = new Intents();
 myIntents.add(Intents.FLAGS.GUILDS);
@@ -17,6 +19,8 @@ myIntents.add(Intents.FLAGS.GUILD_MESSAGE_REACTIONS);
 myIntents.add(Intents.FLAGS.DIRECT_MESSAGES);
 
 const client = new Client({ intents: myIntents });
+
+client.commands = new Collection();
 
 client.once("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
