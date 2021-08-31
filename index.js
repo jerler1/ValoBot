@@ -39,10 +39,18 @@ client.on("interactionCreate", async (interaction) => {
   console.log(interaction);
   if (!interaction.isCommand()) return;
 
-  const { commandName } = interaction;
+  const command = client.commands.get(interaction.commandName);
 
-  if (commandName === "ping") {
-    await interaction.reply("Pong!");
+  if (!command) return;
+
+  try {
+    await command.execute(interaction);
+  } catch (error) {
+    console.error(error);
+    await interaction.reply({
+      content: "There was an error while executing this command!",
+      ephemeral: true,
+    });
   }
 });
 
@@ -56,19 +64,19 @@ client.on("messageCreate", (msg) => {
   }
 });
 
-client.on("interactionCreate", async (interaction) => {
-  if (!interaction.isCommand()) return;
+// client.on("interactionCreate", async (interaction) => {
+//   if (!interaction.isCommand()) return;
 
-  if (interaction.commandName === "ping") {
-    const row = new MessageActionRow().addComponents(
-      new MessageButton()
-        .setCustomId("primary")
-        .setLabel("Primary")
-        .setStyle("PRIMARY")
-    );
+//   if (interaction.commandName === "ping") {
+//     const row = new MessageActionRow().addComponents(
+//       new MessageButton()
+//         .setCustomId("primary")
+//         .setLabel("Primary")
+//         .setStyle("PRIMARY")
+//     );
 
-    await interaction.reply({ content: "Pong!", components: [row] });
-  }
-});
+//     await interaction.reply({ content: "Pong!", components: [row] });
+//   }
+// });
 
 client.login(process.env.TOKEN);
