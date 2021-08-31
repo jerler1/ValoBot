@@ -7,6 +7,7 @@ const {
   MessageButton,
 } = require("discord.js");
 const fs = require("fs");
+const commands = require("./commands/ping");
 
 const myIntents = new Intents();
 myIntents.add(Intents.FLAGS.GUILDS);
@@ -21,21 +22,29 @@ myIntents.add(Intents.FLAGS.DIRECT_MESSAGES);
 const client = new Client({ intents: myIntents });
 
 client.commands = new Collection();
+const commandFiles = fs
+  .readdirSync("./commands")
+  .filter((file) => file.endsWith(".js"));
+
+for (const file of commandFiles) {
+  const command = require(`./commands/${file}`);
+  commands.push(command.data.toJSON());
+}
 
 client.once("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
-// client.on("interactionCreate", async (interaction) => {
-//   console.log(interaction);
-//   if (!interaction.isCommand()) return;
+client.on("interactionCreate", async (interaction) => {
+  console.log(interaction);
+  if (!interaction.isCommand()) return;
 
-//   const { commandName } = interaction;
+  const { commandName } = interaction;
 
-//   if (commandName === "ping") {
-//     await interaction.reply("Pong!");
-//   }
-// });
+  if (commandName === "ping") {
+    await interaction.reply("Pong!");
+  }
+});
 
 client.on("messageCreate", (msg) => {
   console.log(msg);
