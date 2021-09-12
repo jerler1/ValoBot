@@ -5,6 +5,7 @@ module.exports = {
     .setName("startUp")
     .setDescription("Replies with start up information!"),
   async execute(interaction) {
-    await interaction.reply("Pong!");
+    await interaction.reply("Detecting server.");
+    await interaction.reply("System booted successfully.")
   },
 };
