@@ -1,13 +1,11 @@
 require("dotenv").config();
 const {
-  Client,
-  Collection,
-  Intents,
-  MessageActionRow,
-  MessageButton,
-} = require("discord.js");
-const fs = require("fs");
-const commands = require("./commands/ping");
+    Client,
+    Collection,
+    Intents,
+    MessageActionRow,
+    MessageButton,
+  } = require("discord.js");
 
 const myIntents = new Intents();
 myIntents.add(Intents.FLAGS.GUILDS);
@@ -21,62 +19,14 @@ myIntents.add(Intents.FLAGS.DIRECT_MESSAGES);
 
 const client = new Client({ intents: myIntents });
 
-client.commands = new Collection();
-const commandFiles = fs
-  .readdirSync("./commands")
-  .filter((file) => file.endsWith(".js"));
+client.on("ready", () => {
+    console.log(`Logged in as ${client.user.tag}!`)
+})
 
-for (const file of commandFiles) {
-  const command = require(`./commands/${file}`);
-  commands.push(command.data.toJSON());
-}
+client.on("messageCreate", msg => {
+    if (msg.content === "ping") {
+        msg.reply("pong");
+    }
+})
 
-client.once("ready", () => {
-  console.log(`Logged in as ${client.user.tag}!`);
-});
-
-client.on("interactionCreate", async (interaction) => {
-  console.log(interaction);
-  if (!interaction.isCommand()) return;
-
-  const command = client.commands.get(interaction.commandName);
-
-  if (!command) return;
-
-  try {
-    await command.execute(interaction);
-  } catch (error) {
-    console.error(error);
-    await interaction.reply({
-      content: "There was an error while executing this command!",
-      ephemeral: true,
-    });
-  }
-});
-
-client.on("messageCreate", (msg) => {
-  console.log(msg);
-  if (msg.content === "ping" || msg.content === "!!ping") {
-    msg.reply("pong");
-  }
-  if (msg.content === "ying") {
-    msg.reply("yang");
-  }
-});
-
-// client.on("interactionCreate", async (interaction) => {
-//   if (!interaction.isCommand()) return;
-
-//   if (interaction.commandName === "ping") {
-//     const row = new MessageActionRow().addComponents(
-//       new MessageButton()
-//         .setCustomId("primary")
-//         .setLabel("Primary")
-//         .setStyle("PRIMARY")
-//     );
-
-//     await interaction.reply({ content: "Pong!", components: [row] });
-//   }
-// });
-
-client.login(process.env.TOKEN);
+client.login(process.env.TOKEN)
