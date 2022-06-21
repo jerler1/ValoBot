@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("startUp")
+    .setName("startup")
     .setDescription("Replies with start up information!"),
   async execute(interaction) {
     await interaction.reply("Detecting server.");
